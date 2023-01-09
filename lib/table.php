@@ -17,7 +17,7 @@ function reset_table()
 {
 	global $mysqli;
 
-	$sql = 'call clean_deck()';
+	$sql = 'call shuffle_deck()';
 	$mysqli->query($sql);
 	show_table();
 }
