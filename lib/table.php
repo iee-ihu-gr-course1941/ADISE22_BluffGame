@@ -2,8 +2,8 @@
 function show_table()
 {
 	global $mysqli;
-
-	$sql = 'select amount,number from declaration';
+	$sql = 'select * from deck';
+	// $sql = 'select amount,number from declaration';
 	$st = $mysqli->prepare($sql);
 
 	$st->execute();
