@@ -51,7 +51,7 @@ switch ($r = array_shift($request)) {
 function handle_table($method)
 {
     if ($method == 'GET') {
-        show_status();
+        show_table();
     } else {
         header('HTTP/1.1405 Method Not Allowed');
     }
