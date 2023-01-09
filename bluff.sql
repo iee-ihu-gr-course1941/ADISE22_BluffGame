@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 09, 2023 at 06:54 PM
+-- Generation Time: Jan 09, 2023 at 08:51 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -43,6 +43,10 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `clean_deck` ()   BEGIN
 REPLACE INTO deck SELECT * FROM deck_empty;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `declaration_reset` ()   BEGIN
+UPDATE declaration SET amount = NULL, number = NULL  WHERE id = 1;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `firstplayer` ()   BEGIN
@@ -105,57 +109,57 @@ CREATE TABLE `deck` (
 
 INSERT INTO `deck` (`id`, `number`, `symbol`, `player`) VALUES
 (1, '2', 'Club', 'B'),
-(2, '3', 'Club', 'A'),
+(2, '3', 'Club', 'B'),
 (3, '4', 'Club', 'A'),
 (4, '5', 'Club', 'B'),
-(5, '6', 'Club', 'A'),
-(6, '7', 'Club', 'B'),
+(5, '6', 'Club', 'B'),
+(6, '7', 'Club', 'A'),
 (7, '8', 'Club', 'B'),
-(8, '9', 'Club', 'A'),
+(8, '9', 'Club', 'B'),
 (9, '10', 'Club', 'A'),
-(10, 'J', 'Club', 'A'),
-(11, 'Q', 'Club', 'A'),
-(12, 'K', 'Club', 'A'),
-(13, 'A', 'Club', 'A'),
+(10, 'J', 'Club', 'B'),
+(11, 'Q', 'Club', 'B'),
+(12, 'K', 'Club', 'B'),
+(13, 'A', 'Club', 'B'),
 (14, '2', 'Diamond', 'A'),
-(15, '3', 'Diamond', 'A'),
-(16, '4', 'Diamond', 'A'),
+(15, '3', 'Diamond', 'B'),
+(16, '4', 'Diamond', 'B'),
 (17, '5', 'Diamond', 'B'),
 (18, '6', 'Diamond', 'A'),
 (19, '7', 'Diamond', 'B'),
 (20, '8', 'Diamond', 'B'),
 (21, '9', 'Diamond', 'B'),
-(22, '10', 'Diamond', 'A'),
+(22, '10', 'Diamond', 'B'),
 (23, 'J', 'Diamond', 'A'),
-(24, 'Q', 'Diamond', 'A'),
-(25, 'K', 'Diamond', 'B'),
-(26, 'A', 'Diamond', 'A'),
-(27, '2', 'Heart', 'A'),
+(24, 'Q', 'Diamond', 'B'),
+(25, 'K', 'Diamond', 'A'),
+(26, 'A', 'Diamond', 'B'),
+(27, '2', 'Heart', 'B'),
 (28, '3', 'Heart', 'B'),
 (29, '4', 'Heart', 'B'),
-(30, '5', 'Heart', 'B'),
-(31, '6', 'Heart', 'A'),
+(30, '5', 'Heart', 'A'),
+(31, '6', 'Heart', 'B'),
 (32, '7', 'Heart', 'B'),
 (33, '8', 'Heart', 'B'),
-(34, '9', 'Heart', 'A'),
+(34, '9', 'Heart', 'B'),
 (35, '10', 'Heart', 'B'),
-(36, 'J', 'Heart', 'A'),
+(36, 'J', 'Heart', 'B'),
 (37, 'Q', 'Heart', 'A'),
-(38, 'K', 'Heart', 'B'),
-(39, 'A', 'Heart', 'B'),
+(38, 'K', 'Heart', 'A'),
+(39, 'A', 'Heart', 'A'),
 (40, '2', 'Spade', 'B'),
-(41, '3', 'Spade', 'B'),
+(41, '3', 'Spade', 'A'),
 (42, '4', 'Spade', 'A'),
 (43, '5', 'Spade', 'B'),
 (44, '6', 'Spade', 'A'),
 (45, '7', 'Spade', 'A'),
-(46, '8', 'Spade', 'B'),
+(46, '8', 'Spade', 'A'),
 (47, '9', 'Spade', 'A'),
-(48, '10', 'Spade', 'B'),
-(49, 'J', 'Spade', 'B'),
-(50, 'Q', 'Spade', 'B'),
-(51, 'K', 'Spade', 'B'),
-(52, 'A', 'Spade', 'B');
+(48, '10', 'Spade', 'A'),
+(49, 'J', 'Spade', 'A'),
+(50, 'Q', 'Spade', 'A'),
+(51, 'K', 'Spade', 'A'),
+(52, 'A', 'Spade', 'A');
 
 -- --------------------------------------------------------
 
@@ -236,7 +240,7 @@ INSERT INTO `deck_empty` (`id`, `number`, `symbol`, `player`) VALUES
 
 CREATE TABLE `declaration` (
   `id` int(1) NOT NULL,
-  `amount` enum('1','2','3','4') DEFAULT NULL,
+  `amount` enum('1','2','3','4','Pass') DEFAULT NULL,
   `number` enum('2','3','4','5','6','7','8','9','10','J','Q','K','A') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -245,7 +249,6 @@ CREATE TABLE `declaration` (
 --
 
 INSERT INTO `declaration` (`id`, `amount`, `number`) VALUES
-(1, NULL, NULL),
 (1, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -266,7 +269,7 @@ CREATE TABLE `game_status` (
 --
 
 INSERT INTO `game_status` (`status`, `player_turn`, `result`, `last_change`) VALUES
-('started', 'A', 'B', '2022-11-28 16:39:59');
+('not active', NULL, 'B', '2023-01-09 19:41:29');
 
 --
 -- Triggers `game_status`
@@ -296,8 +299,8 @@ CREATE TABLE `players` (
 --
 
 INSERT INTO `players` (`username`, `player`, `token`, `last_action`) VALUES
-('pnevmalex', 'A', 'c415a7b9d097bf946d3d7f4a7e7f7422', '2023-01-06 19:32:21'),
-('aaaa', 'B', '05da4297eecc648e840b6d3bfa772adc', '2022-11-28 15:16:54');
+(NULL, 'A', NULL, '2023-01-09 19:10:37'),
+(NULL, 'B', NULL, '2023-01-09 19:10:37');
 
 --
 -- Indexes for dumped tables
