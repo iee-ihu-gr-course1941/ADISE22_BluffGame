@@ -22,7 +22,7 @@ function reset_table()
 	show_table();
 }
 
-function playcard($arg1, $arg2, $arg3, $arg4, $arg5, $arg6)
+function playcard($arg1, $arg2, $arg3, $arg4=null, $arg5=null, $arg6=null)
 {
 	if ($arg1 >= 1 && $arg1 <= 4) {
 		$num_args = func_num_args();
