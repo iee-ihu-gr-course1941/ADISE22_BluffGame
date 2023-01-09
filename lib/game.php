@@ -1,6 +1,7 @@
 <?php
 function show_status()
 {
+	update_game_status();
 	global $mysqli;
 
 	$sql = 'select * from game_status';
@@ -33,6 +34,8 @@ function update_game_status()
 	$res3 = $st3->get_result();
 	$aborted = $res3->fetch_assoc()['aborted'];
 	if($aborted>0) {
+		$sql = 'call reset_deck()';
+        $mysqli->query($sql);
 		$sql = "UPDATE players SET username=NULL, token=NULL WHERE last_action< (NOW() - INTERVAL 5 MINUTE)";
 		$st2 = $mysqli->prepare($sql);
 		$st2->execute();
@@ -54,16 +57,22 @@ function update_game_status()
 			break;
 		case 1:
 			$new_status = 'initialized';
+			$sql = 'call shuffle_deck()';
+            $mysqli->query($sql);
 			break;
 		case 2:
 			$new_status = 'started';
 			if ($status['player_turn'] == null) {
-				$sql = 'call firstplayer()';
-				$st = $mysqli->prepare($sql);
-				$st->execute();
-				$res = $st->get_result();
+				// $sql = 'call firstplayer()';
+				// $st = $mysqli->prepare($sql);
+				// $st->execute();
+				// $res = $st->get_result();
+				// $row = $res->fetch_assoc();
+				// $new_turn = $row['player']; 
 
-				$new_turn = $res; 
+
+
+				$new_turn='A';
 			}
 			break;
 	}

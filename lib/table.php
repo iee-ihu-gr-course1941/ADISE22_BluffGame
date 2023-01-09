@@ -3,7 +3,7 @@ function show_table()
 {
 	global $mysqli;
 
-	$sql = 'select * from deck';
+	$sql = 'select amount,number from declaration';
 	$st = $mysqli->prepare($sql);
 
 	$st->execute();
@@ -18,6 +18,12 @@ function reset_table()
 	global $mysqli;
 
 	$sql = 'call shuffle_deck()';
+	$mysqli->query($sql);
+
+	$sql = 'call restore_bluff()';
+	$mysqli->query($sql);
+
+	$sql = 'call declaration_reset()';
 	$mysqli->query($sql);
 	show_table();
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 09, 2023 at 06:23 PM
+-- Generation Time: Jan 09, 2023 at 06:54 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -227,6 +227,26 @@ INSERT INTO `deck_empty` (`id`, `number`, `symbol`, `player`) VALUES
 (50, 'Q', 'Spade', NULL),
 (51, 'K', 'Spade', NULL),
 (52, 'A', 'Spade', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `declaration`
+--
+
+CREATE TABLE `declaration` (
+  `id` int(1) NOT NULL,
+  `amount` enum('1','2','3','4') DEFAULT NULL,
+  `number` enum('2','3','4','5','6','7','8','9','10','J','Q','K','A') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `declaration`
+--
+
+INSERT INTO `declaration` (`id`, `amount`, `number`) VALUES
+(1, NULL, NULL),
+(1, NULL, NULL);
 
 -- --------------------------------------------------------
 
